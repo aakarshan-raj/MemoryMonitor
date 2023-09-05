@@ -1,4 +1,5 @@
 use std::{default, fs};
+use colored::*;
 
 const PATH: &str = "/proc/meminfo";
 
@@ -29,7 +30,10 @@ impl MemoryInfo {
     }
 
     fn print_info(&self) {
-        println!("{} \n{}\n{}", self.mem_free, self.mem_total, self.mem_avail);
+        println!("{} {} \n{} {}\n{} {}",
+        "Total Memory".red().bold(), self.mem_total,
+        "Free Memory".red().bold(), self.mem_free,
+        "Avaiable Memory".red().bold(), self.mem_avail);
     }
 }
 
@@ -37,4 +41,5 @@ fn main() {
     let mut memory = MemoryInfo::new();
     memory.get_info();
     memory.print_info();
+    
 }
