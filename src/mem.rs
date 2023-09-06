@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, io::{stdout, Write}, thread, time::Duration};
 use colored::*;
 
 const PATH: &str = "/proc/meminfo";
@@ -29,10 +29,16 @@ impl MemoryInfo {
         }
     }
 
-    pub fn print_info(&self) {
-        println!("{} {} \n{} {}\n{} {}",
+    pub fn print_info(&mut self) {
+        let mut stdout = stdout();
+        loop{
+        print!("\r{} {} {} {} {} {}",
         "Total Memory".red().bold(), self.mem_total,
         "Free Memory".red().bold(), self.mem_free,
         "Avaiable Memory".red().bold(), self.mem_avail);
+        stdout.flush().unwrap();
+        self.get_info();
+        thread::sleep(Duration::from_millis(20));
+        }
     }
 }
